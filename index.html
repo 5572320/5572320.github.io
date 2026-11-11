@@ -41,20 +41,51 @@
   h1 { font-size: 3.2em; line-height: 1.1; margin: 0.67em 0 0.4em; text-wrap: balance; }
   h2 { font-size: 1.5em; margin: 1.4em 0 0.5em; }
   ul { padding-left: 1.4em; display: grid; gap: 0.3em; }
-  .note { opacity: 0.7; font-size: 0.9em; }
+  [hidden] { display: none !important; }
 </style>
 </head>
 <body>
 <main>
-  <h1>5572320のぺーーーーージ</h1>
+  <nav>
+    <a href="#home">ホーム</a> | <a href="#math">現在公開可能な数学</a> | <a href="#mono">物</a> | <a href="#other">その他</a>
+  </nav>
 
-  <h2 id="math">現在公開可能な数学</h2>
-  <ul>
-    <li><a href="pdf/selberg.pdf" target="_blank" rel="noopener">セルバーグ跡公式の証明（絶賛更新中）</a></li>
-    <li><a href="pdf/suriken_2nen_kouki.pdf" target="_blank" rel="noopener">数理研二年後期</a></li>
-    <li><a href="pdf/suriken_2nen_zenki.pdf" target="_blank" rel="noopener">数理研二年前期</a></li>
-    <li><a href="pdf/suriken_1nen_kouki.pdf" target="_blank" rel="noopener">数理研一年後期</a></li>
-  </ul>
+  <section id="home" class="view">
+    <h1>5572320のぺーーーーージ</h1>
+  </section>
+
+  <section id="math" class="view" hidden>
+    <h1>現在公開可能な数学</h1>
+    <ul>
+      <li><a href="pdf/selberg.pdf" target="_blank" rel="noopener">セルバーグ跡公式の証明（絶賛更新中）</a></li>
+      <li><a href="pdf/suriken_2nen_kouki.pdf" target="_blank" rel="noopener">数理研二年後期</a></li>
+      <li><a href="pdf/suriken_2nen_zenki.pdf" target="_blank" rel="noopener">数理研二年前期</a></li>
+      <li><a href="pdf/suriken_1nen_kouki.pdf" target="_blank" rel="noopener">数理研一年後期</a></li>
+    </ul>
+  </section>
+
+  <section id="mono" class="view" hidden>
+    <h1>物</h1>
+    <ul>
+      <li><a href="https://5572320-yacht.streamlit.app/" target="_blank" rel="noopener">ヨットの最適解を出すサイト</a></li>
+    </ul>
+  </section>
+
+  <section id="other" class="view" hidden>
+    <h1>その他</h1>
+  </section>
 </main>
+<script>
+  // ackvy.com のようにページを切り替える。最初はホーム
+  function show() {
+    var id = location.hash.slice(1);
+    var views = document.querySelectorAll('.view');
+    if (!document.getElementById(id)) id = 'home';
+    views.forEach(function (v) { v.hidden = (v.id !== id); });
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', show);
+  show();
+</script>
 </body>
 </html>

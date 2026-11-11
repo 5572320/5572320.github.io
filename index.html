@@ -11,6 +11,8 @@
     --fg: #213547;
     --link: #646cff;
     --link-hover: #747bff;
+    --ring-fill: rgba(100, 108, 255, 0.06);
+    --quote-bg: rgba(100, 108, 255, 0.08);
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
@@ -42,12 +44,30 @@
   h2 { font-size: 1.5em; margin: 1.4em 0 0.5em; }
   ul { padding-left: 1.4em; display: grid; gap: 0.3em; }
   [hidden] { display: none !important; }
+  .back { margin: 1em 0 0; font-size: 0.9em; }
+  .figure { overflow-x: auto; margin: 1em 0; }
+  .figure svg { display: block; width: 100%; min-width: 620px; height: auto; }
+  .figure .ring { fill: var(--ring-fill); stroke: var(--fg); stroke-width: 2; opacity: 0.9; }
+  .figure .area { font-size: 30px; font-weight: 700; fill: var(--fg); text-anchor: middle; }
+  .figure .chip { font-size: 15px; font-weight: 600; text-anchor: middle; }
+  .review p { margin: 0.9em 0; }
+  .lyric {
+    margin: 1.2em 0;
+    padding: 0.6em 1em;
+    border-left: 4px solid var(--link);
+    background: var(--quote-bg);
+    border-radius: 0 6px 6px 0;
+  }
+  .lyric p { margin: 0; line-height: 1.9; }
+  .lyric p::before { content: "♪ "; color: var(--link); }
+  .sep { border: 0; border-top: 1px dashed var(--fg); opacity: 0.35; margin: 2em 0; }
+  .credit { font-size: 0.85em; opacity: 0.7; margin-top: 2.5em; }
 </style>
 </head>
 <body>
 <main>
   <nav>
-    <a href="#home">ホーム</a> | <a href="#math">現在公開可能な数学</a> | <a href="#mono">物</a> | <a href="#other">その他</a>
+    <a href="#home">ホーム</a> | <a href="#math">現在公開可能な数学資料</a> | <a href="#made">つくったもの</a> | <a href="#hobby">趣味</a> | <a href="#other">その他</a>
   </nav>
 
   <section id="home" class="view">
@@ -55,8 +75,9 @@
   </section>
 
   <section id="math" class="view" hidden>
-    <h1>現在公開可能な数学</h1>
+    <h1>現在公開可能な数学資料</h1>
     <ul>
+      <li><a href="#roadmap">数学ロードマップ</a></li>
       <li><a href="pdf/selberg.pdf" target="_blank" rel="noopener">セルバーグ跡公式の証明（絶賛更新中）</a></li>
       <li><a href="pdf/suriken_2nen_kouki.pdf" target="_blank" rel="noopener">数理研二年後期</a></li>
       <li><a href="pdf/suriken_2nen_zenki.pdf" target="_blank" rel="noopener">数理研二年前期</a></li>
@@ -64,11 +85,105 @@
     </ul>
   </section>
 
-  <section id="mono" class="view" hidden>
-    <h1>物</h1>
+  <section id="roadmap" class="view" hidden>
+    <p class="back"><a href="#math">← 現在公開可能な数学資料</a></p>
+    <h1>数学ロードマップ</h1>
+    <div class="figure">
+<svg viewBox="0 0 900 880" role="img" aria-label="数学ロードマップ" xmlns="http://www.w3.org/2000/svg">
+<circle cx="330" cy="320" r="275" class="ring"/>
+<circle cx="570" cy="320" r="275" class="ring"/>
+<circle cx="450" cy="530" r="275" class="ring"/>
+<text x="170" y="70" class="area">解析</text>
+<text x="730" y="70" class="area">代数</text>
+<text x="450" y="835" class="area">幾何</text>
+<g><rect x="139" y="161.0" width="52" height="28" rx="14" fill="#8a4fd1" stroke="#8a8f98" stroke-width="1"/><text x="165" y="180" class="chip" fill="#ffffff">微積</text></g>
+<g><rect x="116" y="201.0" width="67" height="28" rx="14" fill="#8a4fd1" stroke="#8a8f98" stroke-width="1"/><text x="150" y="220" class="chip" fill="#ffffff">実解析</text></g>
+<g><rect x="102" y="241.0" width="97" height="28" rx="14" fill="#2f6fdb" stroke="#8a8f98" stroke-width="1"/><text x="150" y="260" class="chip" fill="#ffffff">関数解析学</text></g>
+<g><rect x="99" y="281.0" width="82" height="28" rx="14" fill="#2f6fdb" stroke="#8a8f98" stroke-width="1"/><text x="140" y="300" class="chip" fill="#ffffff">確率統計</text></g>
+<g><rect x="99" y="321.0" width="82" height="28" rx="14" fill="#2e9d57" stroke="#8a8f98" stroke-width="1"/><text x="140" y="340" class="chip" fill="#ffffff">複素解析</text></g>
+<g><rect x="94" y="361.0" width="112" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="150" y="380" class="chip" fill="#213547">フーリエ解析</text></g>
+<g><rect x="234" y="81.0" width="112" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="290" y="100" class="chip" fill="#213547">常微分方程式</text></g>
+<g><rect x="94" y="401.0" width="82" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="135" y="420" class="chip" fill="#213547">特殊関数</text></g>
+<g><rect x="156" y="121.0" width="127" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="220" y="140" class="chip" fill="#213547">スペクトル理論</text></g>
+<g><rect x="694" y="201.0" width="82" height="28" rx="14" fill="#2f6fdb" stroke="#8a8f98" stroke-width="1"/><text x="735" y="220" class="chip" fill="#ffffff">線形代数</text></g>
+<g><rect x="724" y="241.0" width="52" height="28" rx="14" fill="#2f6fdb" stroke="#8a8f98" stroke-width="1"/><text x="750" y="260" class="chip" fill="#ffffff">群論</text></g>
+<g><rect x="724" y="281.0" width="52" height="28" rx="14" fill="#2e9d57" stroke="#8a8f98" stroke-width="1"/><text x="750" y="300" class="chip" fill="#ffffff">環論</text></g>
+<g><rect x="704" y="321.0" width="82" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="745" y="340" class="chip" fill="#213547">四元数環</text></g>
+<g><rect x="699" y="361.0" width="112" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="755" y="380" class="chip" fill="#213547">代数的整数論</text></g>
+<g><rect x="409" y="686.0" width="82" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="450" y="705" class="chip" fill="#213547">双曲幾何</text></g>
+<g><rect x="402" y="726.0" width="97" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="450" y="745" class="chip" fill="#213547">位相空間論</text></g>
+<g><rect x="409" y="156.0" width="82" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="450" y="175" class="chip" fill="#213547">保型形式</text></g>
+<g><rect x="214" y="416.0" width="97" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="262" y="435" class="chip" fill="#213547">リーマン面</text></g>
+<g><rect x="196" y="456.0" width="127" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="260" y="475" class="chip" fill="#213547">スペクトル幾何</text></g>
+<g><rect x="196" y="496.0" width="127" height="28" rx="14" fill="#2e9d57" stroke="#8a8f98" stroke-width="1"/><text x="260" y="515" class="chip" fill="#ffffff">微分トポロジー</text></g>
+<g><rect x="224" y="536.0" width="82" height="28" rx="14" fill="#2f6fdb" stroke="#8a8f98" stroke-width="1"/><text x="265" y="555" class="chip" fill="#ffffff">微分幾何</text></g>
+<g><rect x="544" y="506.0" width="142" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="615" y="525" class="chip" fill="#213547">群作用・等質空間</text></g>
+<g><rect x="566" y="546.0" width="97" height="28" rx="14" fill="#ffffff" stroke="#8a8f98" stroke-width="1"/><text x="615" y="565" class="chip" fill="#213547">フックス群</text></g>
+<g><rect x="402" y="366.0" width="97" height="28" rx="14" fill="#8a4fd1" stroke="#8a8f98" stroke-width="1"/><text x="450" y="385" class="chip" fill="#ffffff">論理・集合</text></g>
+</svg>
+
+    </div>
+  </section>
+
+  <section id="made" class="view" hidden>
+    <h1>つくったもの</h1>
     <ul>
       <li><a href="https://5572320-yacht.streamlit.app/" target="_blank" rel="noopener">ヨットの最適解を出すサイト</a></li>
     </ul>
+  </section>
+
+  <section id="hobby" class="view" hidden>
+    <h1>趣味</h1>
+    <ul>
+      <li><a href="#ebichu">私立恵比寿中学　楽曲レビュー</a></li>
+    </ul>
+  </section>
+
+  <section id="ebichu" class="view" hidden>
+    <p class="back"><a href="#hobby">← 趣味</a></p>
+    <h1>私立恵比寿中学　楽曲レビュー</h1>
+    <ul>
+      <li><a href="#sweetest">スウィーテスト・多忙。</a></li>
+    </ul>
+  </section>
+
+  <section id="sweetest" class="view review" hidden>
+    <p class="back"><a href="#ebichu">← 私立恵比寿中学　楽曲レビュー</a></p>
+    <h1>スウィーテスト・多忙。</h1>
+
+    <p>廣田あいかのラストシングルとなった「シンガロン・シンガソン」から七か月後、六人体制として最初にリリースされたシングル「でかどんでん」の収録曲。</p>
+
+    <p>同年一月三日、四日に私立恵比寿中学は日本武道館で、一日目：廣田あいかの卒業、二日目：六人体制としてのスタート「ebichu pride」の２DAYSライブを行った。廣田あいかの卒業がグループの存続にとって痛手であることを校長をはじめとするスタッフ・大人たちは感じていたため、そのリハーサルは彼女たちを異常なほど追い込むものとなった。</p>
+
+    <blockquote class="lyric">
+      <p>なぜそこまでとわけわからんほどの　汗と努力で<br>掘り出し物の夢を磨き上げ　ここまできた</p>
+    </blockquote>
+
+    <hr class="sep">
+
+    <p>それからも日々ライブ、イベント、レコーディング、練習、などを繰り返すサイクル（まるで土星の輪のように）の多忙な日々を、スウィーテストだと彼女たちは歌う。</p>
+
+    <blockquote class="lyric">
+      <p>土星の輪っかな街で　君とスウィーテストな多忙</p>
+    </blockquote>
+    <blockquote class="lyric">
+      <p>25.6時間じゃ足りない<br>水金地火木なエヴリデイ<br>君と出会えた奇跡に<br>ナ・ナ・ナ・ナ・ナ・ナ・ナ・ナ・ナマステ！ナマステ！<br>ワオ！</p>
+    </blockquote>
+
+    <hr class="sep">
+
+    <p>ファンはそう前向きに歌う彼女たちの未来が一層楽しみになったのであった。</p>
+
+    <blockquote class="lyric">
+      <p>ゴー！Ready ゴー！Ready ゴーっ！<br>共に行こう！　未だ見ぬ世界へ！<br>ゴー！Ready ゴー！Ready ゴーっ！<br>いざ、君と<br>スウィーテスト・多忙なデイズ！</p>
+    </blockquote>
+
+    <hr class="sep">
+
+    <p>ところで、私が私立恵比寿中学を知ったのはこの楽曲のMVを見たことがきっかけであった。</p>
+    <p><a href="https://youtu.be/blt264NrQXE" target="_blank" rel="noopener">「スウィーテスト・多忙。」MV（YouTube）</a></p>
+
+    <p class="credit">歌詞の引用：私立恵比寿中学「スウィーテスト・多忙。」</p>
   </section>
 
   <section id="other" class="view" hidden>
@@ -79,9 +194,8 @@
   // ackvy.com のようにページを切り替える。最初はホーム
   function show() {
     var id = location.hash.slice(1);
-    var views = document.querySelectorAll('.view');
-    if (!document.getElementById(id)) id = 'home';
-    views.forEach(function (v) { v.hidden = (v.id !== id); });
+    if (!document.getElementById(id) || !document.getElementById(id).classList.contains('view')) id = 'home';
+    document.querySelectorAll('.view').forEach(function (v) { v.hidden = (v.id !== id); });
     window.scrollTo(0, 0);
   }
   window.addEventListener('hashchange', show);

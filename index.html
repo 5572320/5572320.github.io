@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5572320ページ</title>
+<style>
+  /* ackvy.com と同じ、Vite 既定の素朴なスタイル（暗い背景・青紫のリンク） */
+  :root {
+    --bg: #ffffff;
+    --fg: #213547;
+    --link: #646cff;
+    --link-hover: #747bff;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #242424; --fg: rgba(255, 255, 255, 0.87);
+      --link: #646cff; --link-hover: #535bf2; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #242424; --fg: rgba(255, 255, 255, 0.87);
+    --link: #646cff; --link-hover: #535bf2; color-scheme: dark;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 16px;
+    padding-block: 2em;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  main { max-width: 46em; margin: 0 auto; }
+  a { font-weight: 500; color: var(--link); text-decoration: inherit; }
+  a:hover { color: var(--link-hover); }
+  a:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+  h1 { font-size: 3.2em; line-height: 1.1; margin: 0.67em 0 0.4em; text-wrap: balance; }
+  h2 { font-size: 1.5em; margin: 1.4em 0 0.5em; }
+  ul { padding-left: 1.4em; display: grid; gap: 0.3em; }
+  .note { opacity: 0.7; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<main>
+  <nav>
+    <a href="#">ホーム</a> | <a href="#math">現在公開可能な数学</a>
+  </nav>
+
+  <h1>5572320のぺーーーーージ</h1>
+
+  <h2 id="math">現在公開可能な数学</h2>
+  <ul>
+    <li><a href="pdf/selberg.pdf" target="_blank" rel="noopener">セルバーグ跡公式の証明（絶賛更新中）</a></li>
+    <li><a href="pdf/suriken_2nen_kouki.pdf" target="_blank" rel="noopener">数理研二年後期</a></li>
+    <li><a href="pdf/suriken_2nen_zenki.pdf" target="_blank" rel="noopener">数理研二年前期</a></li>
+    <li><a href="pdf/suriken_1nen_kouki.pdf" target="_blank" rel="noopener">数理研一年後期</a></li>
+  </ul>
+  <p class="note">リンクを押すと PDF が開きます．</p>
+</main>
+</body>
+</html>

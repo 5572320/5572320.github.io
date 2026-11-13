@@ -64,16 +64,180 @@
   .date { font-size: 0.85em; opacity: 0.7; }
   .figure .tag { font-size: 11px; font-weight: 700; opacity: 0.85; }
   .credit { font-size: 0.85em; opacity: 0.7; margin-top: 2.5em; }
+
+  /* ---------- ボタン（Vite 既定風） */
+  button {
+    border-radius: 8px; border: 1px solid transparent; padding: 0.6em 1.2em;
+    font-size: 1em; font-weight: 500; font-family: inherit;
+    background-color: #f9f9f9; color: inherit; cursor: pointer; transition: border-color 0.25s;
+  }
+  button:hover { border-color: var(--link); }
+  button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) button { background-color: #1a1a1a; } }
+
+  /* ---------- ホームの小ネタ */
+  .clock { font-size: 1.25em; font-variant-numeric: tabular-nums; margin: 0.2em 0; }
+  .views { margin: 0.2em 0 1.5em; opacity: 0.85; }
+  .bslider { position: relative; height: 40px; max-width: 420px; touch-action: none; user-select: none; cursor: grab; }
+  .bslider.dragging { cursor: grabbing; }
+  .bslider .sw { display: flex; height: 18px; margin-top: 11px; border: 1px solid #8a8f98; border-radius: 4px; overflow: hidden; }
+  .bslider .sw span { flex: 1; }
+  .bslider .thumb {
+    position: absolute; top: 4px; width: 14px; height: 32px; margin-left: -7px;
+    border-radius: 4px; background: var(--link); box-shadow: 0 1px 3px rgba(0,0,0,0.4); pointer-events: none;
+  }
+  .bslider:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
+  .bslider-label { font-size: 0.85em; opacity: 0.7; margin: 0.2em 0 0; }
+  .slide { max-width: 480px; }
+  .slide .frame { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: 8px; background: #000; }
+  .slide .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .slide .ctrl { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5em; }
+  .buttons { display: grid; gap: 1em; }
+  .bigbtn {
+    display: flex; align-items: center; justify-content: center; max-width: 520px; height: 200px;
+    border-radius: 18px; background: linear-gradient(135deg, #646cff, #8a4fd1);
+    box-shadow: 0 6px 0 #3d3fa8, 0 10px 24px rgba(0,0,0,0.25); user-select: none; cursor: default;
+  }
+  .bigbtn a { color: #fff; font-size: 1.4em; font-weight: 700; padding: 0.1em 0.2em; }
+  .bigbtn a:hover { color: #fff; text-decoration: underline; }
+
+  /* 背景スライダーに一度さわったら，文字色は暗い色のまま（黒背景で読みにくくなる罠） */
+  :root.bg-touched { --fg: #213547; color-scheme: light; }
+  :root.bg-touched body { color: #213547; }
+
+  /* ---------- オープニング */
+  :root.intro-lock { overflow: hidden; }
+  #intro {
+    position: fixed; inset: 0; z-index: 1000; background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4em;
+    transition: opacity 0.6s; cursor: pointer;
+  }
+  #intro.fade { opacity: 0; pointer-events: none; }
+  #intro.shake { animation: shake 0.35s; }
+  .dice-row { display: flex; align-items: flex-start; gap: clamp(4px, 1.5vw, 12px); }
+  .dgroup { display: flex; flex-direction: column; align-items: center; gap: 0.3em; }
+  .dgroup .lbl { font-weight: 700; opacity: 0; transition: opacity 0.3s; }
+  .dgroup.done .lbl { opacity: 0.6; }
+  .pair { display: flex; align-items: center; }
+  .pair .link { width: clamp(6px, 1.6vw, 12px); height: 6px; background: var(--link); transform: scaleX(0); transition: transform 0.3s; }
+  .pair.linked .link { transform: scaleX(1); }
+  #intro .num { font-size: clamp(2.5rem, 12vw, 6rem); font-weight: 800; letter-spacing: 0.05em; opacity: 0; font-variant-numeric: tabular-nums; }
+  #intro .num.bang { animation: bang 0.45s cubic-bezier(.2,1.6,.4,1) forwards; }
+  #intro .skip { position: absolute; bottom: 1.5em; font-size: 0.8em; opacity: 0.5; }
+  @keyframes bang { 0% { opacity: 0; transform: scale(3); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes shake {
+    0%, 100% { transform: translate(0, 0); } 20% { transform: translate(-8px, 4px); } 40% { transform: translate(7px, -5px); }
+    60% { transform: translate(-5px, -3px); } 80% { transform: translate(4px, 3px); }
+  }
+
+  /* ---------- サイコロ */
+  .die {
+    --s: clamp(28px, 9vw, 60px);
+    width: var(--s); height: var(--s); box-sizing: border-box; padding: calc(var(--s) * 0.12);
+    border-radius: calc(var(--s) * 0.2); background: #fff; border: 2px solid #213547;
+    display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
+  }
+  .die i { display: block; place-self: center; width: 72%; height: 72%; border-radius: 50%; }
+  .die i.p { background: #213547; }
+  .die i.one { background: #e0245e; width: 95%; height: 95%; }
+  .die i.z { box-sizing: border-box; border: 3px solid #e0245e; width: 150%; height: 150%; }
+  .die.rolling { animation: tumble 0.35s linear infinite; }
+  .die.settle { animation: settle 0.3s ease-out; }
+  @keyframes tumble {
+    0% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-10px) rotate(90deg); }
+    50% { transform: translateY(0) rotate(180deg); } 75% { transform: translateY(-6px) rotate(270deg); }
+    100% { transform: translateY(0) rotate(360deg); }
+  }
+  @keyframes settle { 0% { transform: scale(1.25); } 100% { transform: scale(1); } }
+
+  /* ---------- ヨットゲーム */
+  .yacht .dice { display: flex; gap: clamp(6px, 2vw, 14px); margin: 1em 0; flex-wrap: wrap; }
+  .yacht .die { --s: clamp(44px, 14vw, 64px); cursor: pointer; transition: transform 0.15s; }
+  .yacht .die.held { outline: 3px solid var(--link); outline-offset: 3px; transform: translateY(-5px); }
+  .yacht .bar { display: flex; gap: 0.6em; flex-wrap: wrap; align-items: center; }
+  .yacht .status { min-height: 1.5em; margin: 0.6em 0; }
+  .yacht table { border-collapse: collapse; width: 100%; max-width: 380px; margin-top: 0.5em; }
+  .yacht th, .yacht td { text-align: left; padding: 0.3em 0.6em; border-bottom: 1px solid rgba(128,128,128,0.3); font-weight: 400; }
+  .yacht td { text-align: right; font-variant-numeric: tabular-nums; }
+  .yacht td button { padding: 0.15em 0.8em; min-width: 3.2em; }
+  .yacht td.used { opacity: 0.6; }
+  .yacht tr.sub th, .yacht tr.sub td { font-size: 0.85em; opacity: 0.75; }
+  .yacht tr.total th, .yacht tr.total td { font-weight: 700; border-top: 2px solid var(--fg); }
+
+  /* ---------- セルバーグ跡公式への道 */
+  .sb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .sb-card { border: 1px solid rgba(128,128,128,0.35); border-radius: 10px; padding: 0.6em; }
+  .sb-card canvas { display: block; width: 100%; height: 150px; }
+  .sb-card h3 { font-size: 1em; margin: 0.2em 0; }
+  .sb-card .sec { font-size: 0.75em; opacity: 0.6; margin: 0.4em 0 0; }
+  .sb-card .d { font-size: 0.85em; opacity: 0.8; margin: 0; }
+  .sb-card.locked { opacity: 0.45; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; }
+  .sb-card.locked .q { font-size: 2em; font-weight: 800; margin: 0; }
+
+  /* ---------- 異変：セルバーグ仕様 */
+  :root.selberg { --bg: #14002a; --fg: #f3e9ff; --link: #ffcc33; --link-hover: #ffe28a; color-scheme: dark; }
+  :root.selberg body { background: #14002a !important; color: #f3e9ff !important; }
+  :root.selberg body { padding-top: 4.5em; }
+  :root.selberg button { background-color: #2a0f4a; color: #f3e9ff; }
+  #selberg-banner {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 60; padding: 0.5em 1em; text-align: center;
+    background: #ffcc33; color: #14002a; font-weight: 800;
+  }
+  #selberg-banner button { margin-left: 0.8em; padding: 0.2em 0.8em; background: #14002a; color: #ffcc33; }
+  #selberg-panel { border: 2px solid #ffcc33; border-radius: 10px; padding: 0.6em 1em; margin: 1em 0; overflow-x: auto; }
+  #selberg-panel .nichanicha { font-size: 1.4em; font-weight: 800; margin: 0; color: #ffcc33; }
+  #rain { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 50; }
+  #rain .f { position: absolute; top: -10%; white-space: nowrap; color: #ffcc33; opacity: 0.85; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(125vh) rotate(var(--rot)); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .die.rolling, #rain .f { animation-duration: 3s; }
+  }
 </style>
 </head>
 <body>
+<noscript><style>#intro { display: none; }</style></noscript>
+<div id="intro" aria-label="オープニング">
+  <div class="dice-row"></div>
+  <div class="num">5572320</div>
+  <p class="skip">クリックでスキップ</p>
+</div>
+<script>document.documentElement.classList.add('intro-lock');</script>
 <main>
   <nav>
-    <a href="#home">ホーム</a> | <a href="#math">現在公開可能な数学資料</a> | <a href="#made">つくったもの</a> | <a href="#hobby">趣味</a> | <a href="#other">その他</a>
+    <a href="#home">ホーム</a> | <a href="#math">現在公開可能な数学資料</a> | <a href="#made">ヨットゲーム</a> | <a href="#hobby">趣味</a> | <a href="#other">その他</a>
   </nav>
 
   <section id="home" class="view">
     <h1>5572320のぺーーーーージ</h1>
+    <p class="clock" id="clock" aria-live="off"></p>
+    <p class="views">見られた回数：<span id="views">…</span> 回</p>
+
+    <h2>背景</h2>
+    <div class="bslider" id="bslider" role="slider" tabindex="0" aria-label="背景の明るさ" aria-valuemin="1" aria-valuemax="9" aria-valuenow="1">
+      <div class="sw"></div>
+      <div class="thumb"></div>
+    </div>
+    <p class="bslider-label" id="bslider-label">背景の明るさ：1 / 9</p>
+
+    <h2>写真</h2>
+    <div class="slide">
+      <div class="frame" id="slide-frame">
+        <img src="img/yokatta_this_distance.jpg" alt="「良かったこの距離で」">
+      </div>
+      <div class="ctrl">
+        <button type="button" id="slide-prev">prev</button>
+        <span id="slide-count">1 / 12</span>
+        <button type="button" id="slide-next">next</button>
+      </div>
+    </div>
+
+    <h2>ボタン</h2>
+    <div class="buttons">
+      <div><button type="button">押す</button></div>
+      <div class="bigbtn"><a href="https://sitmathclub.github.io/" target="_blank" rel="noopener">数理研のホームページへ</a></div>
+    </div>
   </section>
 
   <section id="math" class="view" hidden>
@@ -85,6 +249,10 @@
       <li><a href="pdf/suriken_2nen_zenki.pdf" target="_blank" rel="noopener">数理研二年前期</a></li>
       <li><a href="pdf/suriken_1nen_kouki.pdf" target="_blank" rel="noopener">数理研一年後期</a></li>
     </ul>
+
+    <h2>セルバーグ跡公式への道</h2>
+    <p class="date" id="sb-progress"></p>
+    <div class="sb-grid" id="sb-grid"></div>
   </section>
 
   <section id="roadmap" class="view" hidden>
@@ -128,10 +296,29 @@
   </section>
 
   <section id="made" class="view" hidden>
-    <h1>つくったもの</h1>
+    <h1>ヨットゲーム</h1>
     <ul>
       <li><a href="https://5572320-yacht.streamlit.app/" target="_blank" rel="noopener">ヨットの最適解を出すサイト</a></li>
+      <li><a href="#yacht">ヨットで遊ぶ</a></li>
     </ul>
+  </section>
+
+  <section id="yacht" class="view yacht" hidden>
+    <p class="back"><a href="#made">← ヨットゲーム</a></p>
+    <h1>ヨット</h1>
+    <div id="yacht-game">
+      <div class="dice"></div>
+      <div class="bar">
+        <button type="button" class="roll">振る（残り 3 回）</button>
+        <button type="button" class="again">最初から</button>
+      </div>
+      <p class="status" aria-live="polite"></p>
+      <table>
+        <thead><tr><th scope="col">役</th><td>点</td></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="date">ルールは世界のアソビ大全51 のヨット。1〜6 の合計が 63 以上でボーナス 35 点。</p>
+    </div>
   </section>
 
   <section id="hobby" class="view" hidden>
@@ -234,5 +421,10 @@
   window.addEventListener('hashchange', show);
   show();
 </script>
+<script src="js/dice.js"></script>
+<script src="js/intro.js"></script>
+<script src="js/home.js"></script>
+<script src="js/yacht.js"></script>
+<script src="js/selberg.js"></script>
 </body>
 </html>

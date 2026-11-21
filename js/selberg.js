@@ -127,17 +127,18 @@
   // 証明が進んだら，CARDS に項目を足す／locked を外す。
   var CARDS = [
     { sec: '§2.1', title: '上半平面 ℍ', desc: '舞台。y > 0 の世界。平行移動で流れていく点たち。', draw: drawH },
-    { sec: '§2.1', title: '一次分数変換 g·z', desc: 'g·z = (az+b)/(cz+d)。双曲型の元で流すと，半円が半円に移る。', draw: drawMobius },
-    { sec: '§2.1', title: '双曲計量 ds² = (dx²+dy²)/y²', desc: '同じ双曲半径の円。下に行くほど小さく見える。', draw: drawMetric },
+    { sec: '§2.1', title: '1次分数変換 g·z', desc: 'g·z = (az+b)/(cz+d)。双曲型の元で流すと，半円が半円に移る。', draw: drawMobius },
+    { sec: '§2.2', title: 'ポアンカレ計量 ds = √(dx²+dy²) / y', desc: '同じ双曲半径の円。下に行くほど小さく見える。', draw: drawMetric },
     { sec: '§2.2', title: '測地線', desc: '2 点を結ぶ最短の道は，実軸上に中心をもつ半円（点線は普通の線分）。', draw: drawGeodesic },
     { sec: '§2.3', title: '固定部分群 K = SO(2)', desc: 'i を動かさない変換たち。i のまわりの「回転」。', draw: drawK },
-    { sec: '§2.4', title: '双曲ラプラシアン Δ', desc: 'Δ yˢ = s(1−s) yˢ。s = 1/2 + ir の実部 √y cos(r log y) の縞模様。', draw: drawLaplacian },
+    { sec: '§2.4', title: '双曲距離の公式', desc: 'cosh ρ = 1 + 2u。i を中心とする双曲円板は，中心 i cosh ρ・半径 sinh ρ のふつうの円板。', draw: drawDistance },
+    { sec: '§2.5', title: '双曲ラプラシアン Δ', desc: 'Δ yˢ = s(1−s) yˢ。s = 1/2 + ir の実部 √y cos(r log y) の縞模様。', draw: drawLaplacian },
     { sec: '§3.1', locked: true },
     { sec: '§3.4', locked: true },
     { sec: '§4', locked: true },
     { sec: '§5', locked: true }
   ];
-  var LATEST = '§2.4';
+  var LATEST = '§2.5';
 
   var grid = document.getElementById('sb-grid');
   if (!grid) return;
@@ -329,6 +330,28 @@
     ctx.fillStyle = col.fg; ctx.beginPath(); ctx.arc(i0[0], i0[1], 3, 0, 2 * Math.PI); ctx.fill();
     label(ctx, 'i', i0[0] + 6, i0[1] + 4, col);
     label(ctx, 'k·z = (z cosθ + sinθ)/(−z sinθ + cosθ)', 8, 18, col);
+  }
+
+  function drawDistance(ctx, w, h, t, col) {
+    var p = P(w, h);
+    axis(ctx, w, h, col);
+    var r = 0.15 + 1.0 * (0.5 - 0.5 * Math.cos(t * 0.6));
+    var u = Math.pow(Math.sinh(r / 2), 2);
+    var cen = p(0, Math.cosh(r));
+    ctx.beginPath();
+    ctx.ellipse(cen[0], cen[1], Math.sinh(r) / (X1 - X0) * w, Math.sinh(r) / YMAX * h, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = col.link; ctx.globalAlpha = 0.12; ctx.fill();
+    ctx.globalAlpha = 1; ctx.strokeStyle = col.link; ctx.lineWidth = 1.5; ctx.stroke();
+    var a = p(0, 1), b = p(0, Math.exp(r)), c = p(0, Math.exp(-r));
+    ctx.strokeStyle = col.fg; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+    [[a, 3, col.fg], [b, 4, col.link], [c, 3, col.link]].forEach(function (q) {
+      ctx.fillStyle = q[2]; ctx.beginPath(); ctx.arc(q[0][0], q[0][1], q[1], 0, 2 * Math.PI); ctx.fill();
+    });
+    label(ctx, 'i', a[0] + 6, a[1] + 4, col);
+    label(ctx, 'ie^ρ', b[0] + 6, b[1] + 4, col);
+    label(ctx, 'ρ = ' + r.toFixed(2) + ',  u = sinh²(ρ/2) = ' + u.toFixed(3), 8, 18, col);
+    label(ctx, 'cosh ρ = ' + Math.cosh(r).toFixed(3) + ' = 1 + 2u', 8, 36, col);
   }
 
   function drawLaplacian(ctx, w, h, t, col) {

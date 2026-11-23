@@ -40,6 +40,8 @@
     'u(z,w)=\\frac{|z-w|^2}{4\\operatorname{Im}z\\operatorname{Im}w}',
     'N(\\gamma)^{1/2}+N(\\gamma)^{-1/2}=|\\operatorname{tr}\\gamma|',
     'K=\\mathrm{SO}(2)',
+    'd\\mu=\\frac{dx\\,dy}{y^2}',
+    '\\int_{\\mathbb{H}}F(u(z,i))\\,d\\mu(z)=4\\pi\\int_0^\\infty F(u)\\,du',
     'k(0)=\\frac{1}{4\\pi}\\int_{-\\infty}^{\\infty} r\\,h(r)\\tanh(\\pi r)\\,dr',
     '\\mathrm{SL}(2,\\mathbb{R})/\\{\\pm I\\}\\cong\\mathrm{PSL}(2,\\mathbb{R})'
   ];
@@ -133,12 +135,13 @@
     { sec: '§2.3', title: '固定部分群 K = SO(2)', desc: 'i を動かさない変換たち。i のまわりの「回転」。', draw: drawK },
     { sec: '§2.4', title: '双曲距離の公式', desc: 'cosh ρ = 1 + 2u。i を中心とする双曲円板は，中心 i cosh ρ・半径 sinh ρ のふつうの円板。', draw: drawDistance },
     { sec: '§2.5', title: '双曲ラプラシアン Δ', desc: 'Δ yˢ = s(1−s) yˢ。s = 1/2 + ir の実部 √y cos(r log y) の縞模様。', draw: drawLaplacian },
-    { sec: '§3.1', locked: true },
+    { sec: '§3.1', title: '不変測度 dμ = dx dy / y²', desc: '小さな四角を i のまわりに回す。見た目の大きさは変わるが，dμ で測った面積は変わらない。', draw: drawMeasure },
+    { sec: '§3.2', title: '極座標での積分', desc: 'u(z, i) ≤ X の円板の面積はちょうど 4πX。中心 i(1+2X)，半径 2√(X(1+X)) のふつうの円板。', draw: drawPolar },
     { sec: '§3.4', locked: true },
     { sec: '§4', locked: true },
     { sec: '§5', locked: true }
   ];
-  var LATEST = '§2.5';
+  var LATEST = '§3.2';
 
   var grid = document.getElementById('sb-grid');
   if (!grid) return;
@@ -311,6 +314,47 @@
     label(ctx, 'z と w を結ぶ測地線', 8, 18, col);
   }
 
+  function drawMeasure(ctx, w, h, t, col) {
+    var p = P(w, h);
+    axis(ctx, w, h, col);
+    var th = t * 0.5, m = [Math.cos(th), Math.sin(th), -Math.sin(th), Math.cos(th)];
+    var x0 = 0.55, y0 = 1.25, d = 0.45, n = 12, pts = [], k;
+    for (k = 0; k < n; k++) pts.push([x0 + d * k / n, y0]);
+    for (k = 0; k < n; k++) pts.push([x0 + d, y0 + d * k / n]);
+    for (k = 0; k < n; k++) pts.push([x0 + d - d * k / n, y0 + d]);
+    for (k = 0; k < n; k++) pts.push([x0, y0 + d - d * k / n]);
+    var img = pts.map(function (z) { return mob(m, z); });
+    // dμ で測った面積：グリーンの定理 ∬ dx dy / y² = ∮ dx / y
+    var mu = 0;
+    for (k = 0; k < img.length; k++) {
+      var a = img[k], b = img[(k + 1) % img.length];
+      mu += (b[0] - a[0]) * 2 / (a[1] + b[1]);
+    }
+    ctx.beginPath();
+    img.forEach(function (z, j) { var q = p(z[0], z[1]); if (j) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]); });
+    ctx.closePath();
+    ctx.fillStyle = col.link; ctx.globalAlpha = 0.25; ctx.fill();
+    ctx.globalAlpha = 1; ctx.strokeStyle = col.link; ctx.lineWidth = 1.5; ctx.stroke();
+    var i0 = p(0, 1);
+    ctx.fillStyle = col.fg; ctx.beginPath(); ctx.arc(i0[0], i0[1], 3, 0, 2 * Math.PI); ctx.fill();
+    label(ctx, 'i', i0[0] + 6, i0[1] + 4, col);
+    label(ctx, '∬ dx dy / y² = ' + Math.abs(mu).toFixed(3) + '（ずっと同じ）', 8, 18, col);
+  }
+  function drawPolar(ctx, w, h, t, col) {
+    var p = P(w, h);
+    axis(ctx, w, h, col);
+    var X = 0.02 + 0.33 * (0.5 - 0.5 * Math.cos(t * 0.6));
+    var c = 1 + 2 * X, R = 2 * Math.sqrt(X * (1 + X));
+    var cen = p(0, c);
+    ctx.beginPath();
+    ctx.ellipse(cen[0], cen[1], R / (X1 - X0) * w, R / YMAX * h, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = col.link; ctx.globalAlpha = 0.15; ctx.fill();
+    ctx.globalAlpha = 1; ctx.strokeStyle = col.link; ctx.lineWidth = 1.5; ctx.stroke();
+    var i0 = p(0, 1);
+    ctx.fillStyle = col.fg; ctx.beginPath(); ctx.arc(i0[0], i0[1], 3, 0, 2 * Math.PI); ctx.fill();
+    label(ctx, 'i', i0[0] + 6, i0[1] + 4, col);
+    label(ctx, 'X = ' + X.toFixed(3) + ',  面積 = 4πX = ' + (4 * Math.PI * X).toFixed(3), 8, 18, col);
+  }
   function drawK(ctx, w, h, t, col) {
     var p = P(w, h);
     axis(ctx, w, h, col);
